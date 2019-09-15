@@ -31,7 +31,14 @@ if __name__ == '__main__':
         sys.stderr.write('Usage: python flash.py FILE' + os.linesep)
         sys.exit(2)
 
-    port = get_serial_port()
     cmd = 'avrdude -v -p atmega328p -c arduino -P %s -b 115200 -D -U ' \
           'flash:w:%s:i'
-    os.system(cmd % (port.device, sys.argv[1]))
+    while True:
+        port = get_serial_port()
+        os.system(cmd % (port.device, sys.argv[1]))
+        print('Enter to continue (next round), anything else to exit')
+        i = input('> ')
+        if i == '':
+            continue
+        else:
+            break
